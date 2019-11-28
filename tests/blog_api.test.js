@@ -36,6 +36,8 @@ test('blogs are returned as json', async () => {
     .expect(200)
     .expect('Content-Type', /application\/json/)
     expect(res.body.length).toBe(2)
+    console.log(res.body)
+    expect(res.body[0].id).toBeDefined()
 })
 
 afterAll(() => {
