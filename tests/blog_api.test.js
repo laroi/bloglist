@@ -53,6 +53,20 @@ describe('when there is initially one user at db', () => {
         const usernames = usersAtEnd.map(u => u.username)
         expect(usernames).toContain(newUser.username)
     })
+    test('invalid user on minlength', async () => {
+        const newUser = {
+            username: 'ml',
+            name: 'Matti Luukkainen',
+            password: 'salainen',
+        }
+
+        await api
+            .post('/api/users')
+            .send(newUser)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+    });
+
 })
 
 describe('blogs apis', () => {
@@ -72,7 +86,6 @@ describe('blogs apis', () => {
         expect(res.body[0].id).toBeDefined();
     });
     test('blogs are created succesfully in right number', async () => {
-        console.log(userId);
         const res = await api
             .post('/api/blogs')
             .send({title:'test1', author:'testauth', url: 'testurl', userId: userId})
