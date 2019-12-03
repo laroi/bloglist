@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express.static('build'));
 app.use(bodyParser.json());
 app.use(middleware.getTokenFrom);
-app.use('/api/blogs', middleware.verifyToken, blogRoutes);
+app.use('/api/blogs', blogRoutes);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 app.use(middleware.unknownEndpoint);

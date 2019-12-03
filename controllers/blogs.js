@@ -1,6 +1,7 @@
 const blogRouter = require('express').Router();
 const Blog = require('../models/blog');
 const User = require('../models/user');
+const middleware = require('../utils/middleware');
 blogRouter.get('/', async (request, response, next) => {
     try {
         const blogs = await Blog.find({}).populate('user');
@@ -10,11 +11,9 @@ blogRouter.get('/', async (request, response, next) => {
     }
 });
 
-blogRouter.post('/', async(request, response, next) => {
+blogRouter.post('/', middleware.verifyToken, async(request, response, next) => {
     const body = request.body;
-    //const user = await User.findById(body.userId)
-    let user = await User.find({});
-    user = user[0];
+    const user = await User.findById(body.userId) 
     const blog = new Blog({
         title: body.title,
         author: body.author,

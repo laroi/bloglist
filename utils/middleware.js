@@ -23,6 +23,7 @@ const verifyToken = (req, res, next) => {
     if (!req.token || !decodedToken.id) {
        next({name: 'JsonWebTokenError'}); 
     }
+    req.body.userId = decodedToken.id;
     next();
 }
 const errorHandler = (error, request, response, next) => {
