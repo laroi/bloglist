@@ -31,7 +31,7 @@ blogRouter.post('/', middleware.verifyToken, async(request, response, next) => {
     }
 });
 
-blogRouter.delete('/:id', async(request, response, next) => {
+blogRouter.delete('/:id', middleware.verifyToken, middleware.verifyOwner, async(request, response, next) => {
     try {
         await Blog.findByIdAndDelete(request.params.id);
         response.status(204).send();
