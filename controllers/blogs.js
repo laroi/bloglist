@@ -13,7 +13,7 @@ blogRouter.get('/', async (request, response, next) => {
 
 blogRouter.post('/', middleware.verifyToken, async(request, response, next) => {
     const body = request.body;
-    const user = await User.findById(body.userId) 
+    const user = await User.findById(body.userId);
     const blog = new Blog({
         title: body.title,
         author: body.author,

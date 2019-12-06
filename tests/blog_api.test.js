@@ -26,48 +26,48 @@ const initialBlogs = [
 let userId;
 describe('when there is initially one user at db', () => {
     beforeEach(async () => {
-        await User.deleteMany({})
-        const user = new User({ username: 'test', password: 'sekret' })
-        res = await user.save()
+        await User.deleteMany({});
+        const user = new User({ username: 'test', password: 'sekret' });
+        const res = await user.save();
         userId = res._id;
-    })
+    });
 
     test('creation succeeds with a fresh username', async () => {
-        const usersAtStart = await helper.usersInDb()
+        const usersAtStart = await helper.usersInDb();
 
         const newUser = {
             username: 'mluukkai',
             name: 'Matti Luukkainen',
             password: 'salainen',
-        }
+        };
 
         await api
             .post('/api/users')
             .send(newUser)
             .expect(200)
-            .expect('Content-Type', /application\/json/)
+            .expect('Content-Type', /application\/json/);
 
-        const usersAtEnd = await helper.usersInDb()
-        expect(usersAtEnd.length).toBe(usersAtStart.length + 1)
+        const usersAtEnd = await helper.usersInDb();
+        expect(usersAtEnd.length).toBe(usersAtStart.length + 1);
 
-        const usernames = usersAtEnd.map(u => u.username)
-        expect(usernames).toContain(newUser.username)
-    })
+        const usernames = usersAtEnd.map(u => u.username);
+        expect(usernames).toContain(newUser.username);
+    });
     test('invalid user on minlength', async () => {
         const newUser = {
             username: 'ml',
             name: 'Matti Luukkainen',
             password: 'salainen',
-        }
+        };
 
         await api
             .post('/api/users')
             .send(newUser)
             .expect(400)
-            .expect('Content-Type', /application\/json/)
+            .expect('Content-Type', /application\/json/);
     });
 
-})
+});
 
 describe('blogs apis', () => {
     beforeEach(async () => {
@@ -75,7 +75,7 @@ describe('blogs apis', () => {
         const blogObjects = initialBlogs.map(blog => new Blog(blog));
         const promiseArray = blogObjects.map(blog => blog.save());
         await Promise.all(promiseArray);
-});
+    });
 
     test('blogs are returned as json', async () => {
         const res = await api

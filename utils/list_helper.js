@@ -6,7 +6,7 @@ const dummy = () => {
 const usersInDb = async () => {
     const users = await User.find({});
     return users.map(u => u.toJSON());
-}
+};
 
 const totalLikes = (blogs) => {
     return blogs.reduce((sum, x)=> sum+x.likes, 0);
